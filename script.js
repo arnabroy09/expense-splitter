@@ -9,6 +9,8 @@ const calculatorTabBtn = document.getElementById("calculatorTabBtn");
 const trackerSection = document.getElementById("trackerSection");
 const calculatorSection = document.getElementById("calculatorSection");
 
+const workflowSteps = document.querySelectorAll(".workflow-step");
+
 const trackerTitleInput = document.getElementById("trackerTitle");
 const trackerPeopleCountInput = document.getElementById("trackerPeopleCount");
 const generateTrackerBtn = document.getElementById("generateTrackerBtn");
@@ -16,8 +18,6 @@ const clearTrackerBtn = document.getElementById("clearTrackerBtn");
 const trackerInputs = document.getElementById("trackerInputs");
 
 const peopleCountInput = document.getElementById("peopleCount");
-const generateBtn = document.getElementById("generateBtn");
-const clearBtn = document.getElementById("clearBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const peopleInputs = document.getElementById("peopleInputs");
 const calculateBtn = document.getElementById("calculateBtn");
@@ -41,6 +41,7 @@ let splitMode = localStorage.getItem("splitMode") || "equal";
 let latestTrackerData = null;
 let latestResultData = null;
 let latestResultText = "";
+let latestSettlementText = "";
 
 function formatINR(amount) {
   return new Intl.NumberFormat("en-IN", {
@@ -93,11 +94,15 @@ function switchTab(tab) {
     calculatorTabBtn.classList.remove("active-tab");
     trackerSection.classList.add("active-section");
     calculatorSection.classList.remove("active-section");
+    workflowSteps[0].classList.add("active-flow");
+    workflowSteps[1].classList.remove("active-flow");
   } else {
     calculatorTabBtn.classList.add("active-tab");
     trackerTabBtn.classList.remove("active-tab");
     calculatorSection.classList.add("active-section");
     trackerSection.classList.remove("active-section");
+    workflowSteps[1].classList.add("active-flow");
+    workflowSteps[0].classList.remove("active-flow");
   }
 }
 
@@ -162,7 +167,10 @@ function renderDefaultResult() {
   resultSection.innerHTML = `
     <div class="result-header no-print">
       <h2>Result</h2>
-      <button id="copyBtn" class="secondary-btn">Copy Result</button>
+      <div class="result-actions">
+        <button id="copyBtn" class="secondary-btn">Copy Result</button>
+        <button id="copySettlementBtn" class="secondary-btn">Copy Settlement Summary</button>
+      </div>
     </div>
     <p>Calculation result will appear here.</p>
   `;
@@ -324,6 +332,20 @@ document.addEventListener("click", async (e) => {
     }
   }
 
+  if (e.target && e.target.id === "copySettlementBtn") {
+    if (!latestSettlementText) {
+      showToast("No settlement summary to copy.", "error");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(latestSettlementText);
+      showToast("Settlement summary copied", "success");
+    } catch {
+      showToast("Copy failed", "error");
+    }
+  }
+
   if (e.target && e.target.classList.contains("load-history-btn")) {
     const index = Number(e.target.dataset.index);
     const history = JSON.parse(localStorage.getItem("expenseHistory")) || [];
@@ -340,10 +362,16 @@ document.addEventListener("click", async (e) => {
     topExpenseHighlight.classList.remove("hidden");
     topExpenseValue.textContent = formatINR(item.totalPaid);
 
-    tripTitleHighlight.classList.add("hidden");
+    if (item.tripTitle) {
+      tripTitleHighlight.classList.remove("hidden");
+      tripTitleValue.textContent = item.tripTitle;
+    } else {
+      tripTitleHighlight.classList.add("hidden");
+    }
 
     latestResultData = item;
     latestResultText = buildResultText(item);
+    latestSettlementText = buildSettlementText(item);
     renderResult(item);
     switchTab("calculator");
   }
@@ -390,21 +418,19 @@ function generatePersonInputs(count, data = []) {
   }
 }
 
-generateBtn.addEventListener("click", () => {
-  const count = parseInt(peopleCountInput.value);
-
-  if (!count || count < 1) {
-    showToast("Please enter valid people count.", "error");
-    return;
+function buildSettlementText(data) {
+  if (!data.settlements || data.settlements.length === 0) {
+    return "Everyone is already settled.";
   }
 
-  generatePersonInputs(count);
-  toggleCustomShareFields();
-  showToast("Split inputs generated", "success");
-});
+  return data.settlements
+    .map(item => `${item.from} pays ${item.to} ${formatINR(item.amount)}`)
+    .join("\n");
+}
 
 function buildResultText(data) {
   return `Expense Splitter Result
+Trip: ${data.tripTitle || "-"}
 Total: ${formatINR(data.totalPaid)}
 Mode: ${data.splitMode}
 
@@ -416,7 +442,7 @@ ${data.people.map(person => {
 }).join("\n")}
 
 Settlement Summary:
-${data.settlements.map(item => `${item.from} pays ${item.to} ${formatINR(item.amount)}`).join("\n")}
+${buildSettlementText(data)}
 `;
 }
 
@@ -424,7 +450,10 @@ function renderResult(data) {
   resultSection.innerHTML = `
     <div class="result-header no-print">
       <h2>Result</h2>
-      <button id="copyBtn" class="secondary-btn">Copy Result</button>
+      <div class="result-actions">
+        <button id="copyBtn" class="secondary-btn">Copy Result</button>
+        <button id="copySettlementBtn" class="secondary-btn">Copy Settlement Summary</button>
+      </div>
     </div>
 
     <div class="result-block">
@@ -476,7 +505,7 @@ calculateBtn.addEventListener("click", () => {
   }
 
   if (peopleInputs.children.length === 0) {
-    showToast("Generate person inputs first.", "error");
+    showToast("Tracker থেকে data transfer করো first.", "error");
     return;
   }
 
@@ -557,6 +586,7 @@ calculateBtn.addEventListener("click", () => {
   }
 
   latestResultData = {
+    tripTitle: latestTrackerData?.title || tripTitleValue.textContent || "",
     splitMode,
     totalPaid,
     totalShare,
@@ -568,6 +598,8 @@ calculateBtn.addEventListener("click", () => {
   };
 
   latestResultText = buildResultText(latestResultData);
+  latestSettlementText = buildSettlementText(latestResultData);
+
   renderResult(latestResultData);
   saveHistory(latestResultData);
   showToast("Split calculated successfully", "success");
@@ -590,8 +622,10 @@ function renderHistory() {
 
   historyList.innerHTML = history.map((item, index) => `
     <div class="history-item">
-      <div class="history-item-title">Total ${formatINR(item.totalPaid)}</div>
-      <div class="history-meta">${item.splitMode} split | ${item.peopleCount} people | ${item.date}</div>
+      <div class="history-item-title">${escapeHtml(item.tripTitle || "Untitled Trip")}</div>
+      <div class="history-meta">
+        Total ${formatINR(item.totalPaid)} | ${item.splitMode} split | ${item.peopleCount} people | ${item.date}
+      </div>
       <div class="history-actions">
         <button class="secondary-btn small-btn load-history-btn" data-index="${index}">Load</button>
         <button class="secondary-btn small-btn delete-history-btn" data-index="${index}">Delete</button>
@@ -599,16 +633,6 @@ function renderHistory() {
     </div>
   `).join("");
 }
-
-clearBtn.addEventListener("click", () => {
-  peopleCountInput.value = "";
-  peopleInputs.innerHTML = "";
-  topExpenseHighlight.classList.add("hidden");
-  tripTitleHighlight.classList.add("hidden");
-  warningBox.classList.add("hidden");
-  renderDefaultResult();
-  showToast("Calculator cleared", "info");
-});
 
 clearTrackerBtn.addEventListener("click", () => {
   trackerTitleInput.value = "";
