@@ -32,6 +32,12 @@
       </div>
     </header>
 
+    <div class="workflow-indicator no-print">
+      <div class="workflow-step active-flow">1. Trip Expense Tracker</div>
+      <div class="workflow-arrow">→</div>
+      <div class="workflow-step">2. Split Calculator</div>
+    </div>
+
     <div class="tab-switcher no-print">
       <button id="trackerTabBtn" class="tab-btn active-tab">Trip Expense Tracker</button>
       <button id="calculatorTabBtn" class="tab-btn">Split Calculator</button>
@@ -69,7 +75,7 @@
             <h3>Next Step</h3>
             <p>
               This total expense and all person-wise expenses are ready.
-              Click the button below to automatically send everything to
+              Click below to automatically send everything to
               <strong>Split Calculator</strong> for final settlement.
             </p>
             <button id="useInCalculatorBtn" class="transfer-btn">
@@ -108,8 +114,6 @@
           </div>
 
           <div class="button-group">
-            <button id="generateBtn">Generate Person Inputs</button>
-            <button id="clearBtn" class="secondary-btn">Clear All</button>
             <button id="downloadBtn" class="secondary-btn">Download Summary</button>
           </div>
 
@@ -117,15 +121,18 @@
 
           <div id="peopleInputs" class="people-grid"></div>
 
-          <div class="calculate-wrap">
-            <button id="calculateBtn" class="calculate-btn">Calculate Split</button>
+          <div class="calculate-wrap calculate-wrap-animated">
+            <button id="calculateBtn" class="calculate-btn animated-calculate-btn">Calculate Split</button>
           </div>
         </section>
 
         <section class="card result-section" id="result">
           <div class="result-header no-print">
             <h2>Result</h2>
-            <button id="copyBtn" class="secondary-btn">Copy Result</button>
+            <div class="result-actions">
+              <button id="copyBtn" class="secondary-btn">Copy Result</button>
+              <button id="copySettlementBtn" class="secondary-btn">Copy Settlement Summary</button>
+            </div>
           </div>
           <p>Calculation result will appear here.</p>
         </section>
