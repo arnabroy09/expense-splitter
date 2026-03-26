@@ -21,7 +21,7 @@
           <div class="brand-badge">₹</div>
           <div>
             <h1>Expense Splitter</h1>
-            <p>Split bills easily among friends, trips, rent, food, and more.</p>
+            <p>Track trip spending first, then split it smartly.</p>
           </div>
         </div>
 
@@ -32,59 +32,113 @@
       </div>
     </header>
 
+    <div class="tab-switcher no-print">
+      <button id="trackerTabBtn" class="tab-btn active-tab">Trip Expense Tracker</button>
+      <button id="calculatorTabBtn" class="tab-btn">Split Calculator</button>
+    </div>
+
     <main>
-      <section class="card form-section no-print">
-        <h2>Expense Details</h2>
+      <!-- TRACKER -->
+      <section id="trackerSection" class="tab-section active-section">
+        <section class="card form-section no-print">
+          <h2>Trip Expense Tracker</h2>
 
-        <div class="form-group">
-          <label for="title">Event / Expense Title</label>
-          <input type="text" id="title" placeholder="e.g. Goa Trip / Restaurant Bill" />
-        </div>
-
-        <div class="form-group">
-          <label for="peopleCount">Total Number of People</label>
-          <input type="number" id="peopleCount" min="1" placeholder="e.g. 4" />
-        </div>
-
-        <div class="split-mode-wrap">
-          <label>Split Mode</label>
-          <div class="split-mode-toggle">
-            <button id="equalSplitBtn" class="mode-btn active-mode" type="button">Equal Split</button>
-            <button id="customSplitBtn" class="mode-btn" type="button">Custom Split</button>
+          <div class="form-group">
+            <label for="trackerTitle">Trip Title</label>
+            <input type="text" id="trackerTitle" placeholder="e.g. Darjeeling Trip" />
           </div>
-        </div>
 
-        <div class="button-group">
-          <button id="generateBtn">Generate Person Inputs</button>
-          <button id="clearBtn" class="secondary-btn">Clear All</button>
-          <button id="downloadBtn" class="secondary-btn">Download Summary</button>
-        </div>
+          <div class="form-group">
+            <label for="trackerPeopleCount">Total Number of People</label>
+            <input type="number" id="trackerPeopleCount" min="1" placeholder="e.g. 4" />
+          </div>
 
-        <div id="warningBox" class="warning-box hidden"></div>
+          <div class="button-group">
+            <button id="generateTrackerBtn">Generate Tracker Inputs</button>
+            <button id="clearTrackerBtn" class="secondary-btn">Clear Tracker</button>
+          </div>
 
-        <div id="peopleInputs" class="people-grid"></div>
+          <div id="trackerInputs" class="people-grid"></div>
 
-        <div class="calculate-wrap">
-          <button id="calculateBtn" class="calculate-btn">Calculate Split</button>
-        </div>
+          <div id="liveTrackerTotalBox" class="live-total-box hidden">
+            <span>Total Group Expense (Sum of Everyone's Expense)</span>
+            <strong id="liveTrackerTotalValue">₹0.00</strong>
+          </div>
+
+          <div id="trackerTransferBox" class="transfer-box hidden">
+            <h3>Next Step</h3>
+            <p>
+              This total expense and all person-wise expenses are ready.
+              Click the button below to automatically send everything to
+              <strong>Split Calculator</strong> for final settlement.
+            </p>
+            <button id="useInCalculatorBtn" class="transfer-btn">
+              Use This Total in Split Calculator
+            </button>
+          </div>
+        </section>
       </section>
 
-      <section class="card result-section" id="result">
-        <div class="result-header no-print">
-          <h2>Result</h2>
-          <button id="copyBtn" class="secondary-btn">Copy Result</button>
-        </div>
-        <p>Calculation result will appear here.</p>
-      </section>
+      <!-- CALCULATOR -->
+      <section id="calculatorSection" class="tab-section">
+        <section class="card form-section no-print">
+          <h2>Split Calculator</h2>
 
-      <section class="card history-section no-print">
-        <div class="history-header">
-          <h2>Recent History</h2>
-          <button id="clearHistoryBtn" class="secondary-btn">Clear History</button>
-        </div>
-        <div id="historyList">
-          <p>No history yet.</p>
-        </div>
+          <div id="topExpenseHighlight" class="top-expense-highlight hidden">
+            <span>Total Group Expense:</span>
+            <strong id="topExpenseValue">₹0.00</strong>
+          </div>
+
+          <div id="tripTitleHighlight" class="trip-title-highlight hidden">
+            <span>Trip:</span>
+            <strong id="tripTitleValue">-</strong>
+          </div>
+
+          <div class="form-group">
+            <label for="peopleCount">Total Number of People</label>
+            <input type="number" id="peopleCount" min="1" placeholder="e.g. 4" />
+          </div>
+
+          <div class="split-mode-wrap">
+            <label>Split Mode</label>
+            <div class="split-mode-toggle">
+              <button id="equalSplitBtn" class="mode-btn active-mode" type="button">Equal Split</button>
+              <button id="customSplitBtn" class="mode-btn" type="button">Custom Split</button>
+            </div>
+          </div>
+
+          <div class="button-group">
+            <button id="generateBtn">Generate Person Inputs</button>
+            <button id="clearBtn" class="secondary-btn">Clear All</button>
+            <button id="downloadBtn" class="secondary-btn">Download Summary</button>
+          </div>
+
+          <div id="warningBox" class="warning-box hidden"></div>
+
+          <div id="peopleInputs" class="people-grid"></div>
+
+          <div class="calculate-wrap">
+            <button id="calculateBtn" class="calculate-btn">Calculate Split</button>
+          </div>
+        </section>
+
+        <section class="card result-section" id="result">
+          <div class="result-header no-print">
+            <h2>Result</h2>
+            <button id="copyBtn" class="secondary-btn">Copy Result</button>
+          </div>
+          <p>Calculation result will appear here.</p>
+        </section>
+
+        <section class="card history-section no-print">
+          <div class="history-header">
+            <h2>Recent History</h2>
+            <button id="clearHistoryBtn" class="secondary-btn">Clear History</button>
+          </div>
+          <div id="historyList">
+            <p>No history yet.</p>
+          </div>
+        </section>
       </section>
     </main>
   </div>
