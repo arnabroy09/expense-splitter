@@ -3,10 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Expense Splitter</title>
+
+  <meta
+    name="description"
+    content="Track trip expenses and split bills easily among friends with a simple static expense splitter website."
+  />
+  <meta name="theme-color" content="#071019" />
+
+  <meta property="og:title" content="Expense Splitter" />
+  <meta
+    property="og:description"
+    content="Track trip expenses and split bills easily among friends."
+  />
+  <meta property="og:type" content="website" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Expense Splitter" />
+  <meta
+    name="twitter:description"
+    content="Track trip expenses and split bills easily among friends."
+  />
+
   <link rel="stylesheet" href="style.css" />
 </head>
-<body data-theme="dark">
+<body data-theme="light">
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
   <div class="bg-orb orb-3"></div>
@@ -26,17 +48,11 @@
         </div>
 
         <div class="topbar-actions">
-          <button id="themeToggleBtn" class="secondary-btn">Switch to Light</button>
+          <button id="themeToggleBtn" class="secondary-btn">Switch to Dark</button>
           <button id="printBtn" class="secondary-btn">Print</button>
         </div>
       </div>
     </header>
-
-    <div class="workflow-indicator no-print">
-      <div class="workflow-step active-flow">1. Trip Expense Tracker</div>
-      <div class="workflow-arrow">→</div>
-      <div class="workflow-step">2. Split Calculator</div>
-    </div>
 
     <div class="tab-switcher no-print">
       <button id="trackerTabBtn" class="tab-btn active-tab">Trip Expense Tracker</button>
@@ -122,7 +138,7 @@
           <div id="peopleInputs" class="people-grid"></div>
 
           <div class="calculate-wrap calculate-wrap-animated">
-            <button id="calculateBtn" class="calculate-btn animated-calculate-btn">Calculate Split</button>
+            <button id="calculateBtn" class="animated-calculate-btn">Calculate Split</button>
           </div>
         </section>
 
