@@ -31,9 +31,8 @@ const topExpenseValue = document.getElementById("topExpenseValue");
 const tripTitleHighlight = document.getElementById("tripTitleHighlight");
 const tripTitleValue = document.getElementById("tripTitleValue");
 
-const liveTrackerTotalBox = document.getElementById("liveTrackerTotalBox");
+const trackerExpenseHero = document.getElementById("trackerExpenseHero");
 const liveTrackerTotalValue = document.getElementById("liveTrackerTotalValue");
-const trackerTransferBox = document.getElementById("trackerTransferBox");
 
 let splitMode = localStorage.getItem("splitMode") || "equal";
 let latestTrackerData = null;
@@ -174,8 +173,7 @@ function updateLiveTrackerTotal() {
   const count = parseInt(trackerPeopleCountInput.value);
 
   if (!count || trackerInputs.children.length === 0) {
-    liveTrackerTotalBox.classList.add("hidden");
-    trackerTransferBox.classList.add("hidden");
+    trackerExpenseHero.classList.add("hidden");
     liveTrackerTotalValue.textContent = formatINR(0);
     latestTrackerData = null;
     return;
@@ -201,8 +199,7 @@ function updateLiveTrackerTotal() {
     totalExpense: total
   };
 
-  liveTrackerTotalBox.classList.remove("hidden");
-  trackerTransferBox.classList.remove("hidden");
+  trackerExpenseHero.classList.remove("hidden");
   liveTrackerTotalValue.textContent = formatINR(total);
 }
 
@@ -633,8 +630,7 @@ clearTrackerBtn.addEventListener("click", () => {
   trackerPeopleCountInput.value = "";
   trackerInputs.innerHTML = "";
   latestTrackerData = null;
-  liveTrackerTotalBox.classList.add("hidden");
-  trackerTransferBox.classList.add("hidden");
+  trackerExpenseHero.classList.add("hidden");
   liveTrackerTotalValue.textContent = formatINR(0);
   showToast("Tracker cleared", "info");
 });
