@@ -202,35 +202,6 @@ body {
   font-size: 17px;
 }
 
-.workflow-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  margin-bottom: 18px;
-  flex-wrap: wrap;
-}
-
-.workflow-step {
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.workflow-step.active-flow {
-  color: white;
-  background: linear-gradient(135deg, var(--highlight-a), var(--highlight-b));
-}
-
-.workflow-arrow {
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--gold);
-}
-
 .tab-switcher {
   display: flex;
   gap: 12px;
@@ -599,7 +570,6 @@ button {
   margin: 0;
 }
 
-/* PRINT */
 @media print {
   body {
     background: white !important;
@@ -612,7 +582,6 @@ button {
   .toast-container,
   .no-print,
   .topbar-actions,
-  .workflow-indicator,
   .tab-switcher {
     display: none !important;
   }
