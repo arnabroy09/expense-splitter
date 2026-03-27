@@ -9,8 +9,6 @@ const calculatorTabBtn = document.getElementById("calculatorTabBtn");
 const trackerSection = document.getElementById("trackerSection");
 const calculatorSection = document.getElementById("calculatorSection");
 
-const workflowSteps = document.querySelectorAll(".workflow-step");
-
 const trackerTitleInput = document.getElementById("trackerTitle");
 const trackerPeopleCountInput = document.getElementById("trackerPeopleCount");
 const generateTrackerBtn = document.getElementById("generateTrackerBtn");
@@ -74,7 +72,7 @@ function showToast(message, type = "info", duration = 2500) {
 }
 
 function getTheme() {
-  return localStorage.getItem("theme") || "dark";
+  return localStorage.getItem("theme") || "light";
 }
 
 function applyTheme(theme) {
@@ -94,15 +92,11 @@ function switchTab(tab) {
     calculatorTabBtn.classList.remove("active-tab");
     trackerSection.classList.add("active-section");
     calculatorSection.classList.remove("active-section");
-    workflowSteps[0].classList.add("active-flow");
-    workflowSteps[1].classList.remove("active-flow");
   } else {
     calculatorTabBtn.classList.add("active-tab");
     trackerTabBtn.classList.remove("active-tab");
     calculatorSection.classList.add("active-section");
     trackerSection.classList.remove("active-section");
-    workflowSteps[1].classList.add("active-flow");
-    workflowSteps[0].classList.remove("active-flow");
   }
 }
 
