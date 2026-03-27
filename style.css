@@ -291,6 +291,22 @@ button {
   margin-bottom: 10px;
 }
 
+.tracker-help-box {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.10), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(59, 130, 246, 0.16);
+}
+
+.tracker-help-box p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 15px;
+}
+
 .split-mode-wrap {
   margin-top: 8px;
   margin-bottom: 12px;
@@ -375,17 +391,45 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px;
-  border-radius: 18px;
-  margin-top: 18px;
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(251, 191, 36, 0.12));
-  border: 1px solid rgba(34, 197, 94, 0.24);
-  font-size: 18px;
+  padding: 22px 24px;
+  border-radius: 20px;
+  margin-top: 22px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.16), rgba(251, 191, 36, 0.10));
+  border: 1px solid rgba(34, 197, 94, 0.20);
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.08);
 }
 
-.live-total-box strong {
-  font-size: 26px;
+.live-total-box span {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.2px;
+}
+
+.live-total-box strong,
+.top-expense-highlight strong {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  text-shadow: 0 2px 12px rgba(251, 191, 36, 0.18);
+  animation: totalGlow 2.8s ease-in-out infinite;
+}
+
+@keyframes totalGlow {
+  0% {
+    transform: scale(1);
+    opacity: 0.96;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.96;
+  }
 }
 
 .transfer-box {
@@ -415,8 +459,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 18px;
-  border-radius: 16px;
+  padding: 18px 22px;
+  border-radius: 18px;
   margin-bottom: 14px;
   border: 1px solid rgba(251, 191, 36, 0.25);
 }
@@ -429,7 +473,11 @@ button {
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(59, 130, 246, 0.12));
 }
 
-.top-expense-highlight strong,
+.top-expense-highlight span {
+  font-size: 17px;
+  font-weight: 700;
+}
+
 .trip-title-highlight strong {
   color: var(--gold);
   font-size: 22px;
@@ -613,6 +661,8 @@ button {
   .amount-animated,
   .history-item-title {
     color: black !important;
+    text-shadow: none !important;
+    animation: none !important;
   }
 
   .result-two-column {
@@ -631,5 +681,18 @@ button {
   .summary-grid,
   .result-two-column {
     grid-template-columns: 1fr;
+  }
+
+  .live-total-box,
+  .top-expense-highlight,
+  .trip-title-highlight {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .live-total-box strong,
+  .top-expense-highlight strong {
+    font-size: 30px;
   }
 }
